@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>  
+<body>
+<div class="container" ng-app="ticketbooking" ng-controller="myCtrl">
+	<h2>Movie Ticket Booking</h2>
+	<section class="tab-content">
+		<div ng-show="selectedTabId == 1" class="panel panel-default">
+			<div class="panel-heading clearfix">
+				<div class="form-group">
+					<!-- No of setas selection -->
+					<h2 class="control-label col-sm-3" for="email">Select no of seats:</h2>
+					<div class="col-sm-9">
+						 <!-- Total no of seat selection count from controller.js seats array -->
+						<select class="form-control cs-select" ng-model="selectedseats" ng-options="x for x in seats"></select>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="seatSelection" ng-show="selectedseats">
+					<h4>Available Seats</h4>
+					<div class="seatsAvailable">
+						<!-- All available seats for booking from controller.js tickets array -->
+						<a class="holder" ng-repeat="x in tickets" ng-click="addticket(x)"><img class="img-thumbnail seat-img" src="img/seats.png" alt="chair-img" /><span class="caption">{{x}}</span></a>
+					</div>
+				</div>
+				</br></br>
+				<!-- Seats Selected -->
+				<div ng-show="selectedseats" class="seatsBooked">
+					<h4>Selected Seats</h4>
+					<!-- All selected seats from tickets array has been pushed into tickets1 array befor confirmation-->
+					<a class="holder" ng-repeat="x in tickets1" ng-click="removeItem(x)"><img class="img-thumbnail seat-img" src="img/seats.png" alt="chair-img" /><span class="caption">{{x}}</span></a>
+					<p ng-show="tickets1.length > selectedseats">Seat Limit exceded, Try deselecting on the selected seats to match the no of seats selected</p>
+					<p ng-show="tickets1" >For deselecting click on the seat no in the Selected Seats tab</p>
+				</div>
+				</br></br>
+				<a ng-show="tickets1.length == selectedseats" ng-click="showConfirmPage(2)" class="text-center btn btn-success">Confirm Booking</a>
+			
+			</div>
+		</div>
+		<div ng-show="selectedTabId == 2" class="panel panel-default">		   
+			<div class="panel-heading clearfix">
+				 <h2>Ticket Booking Confirmation </h2>
+			</div>
+			<div class="panel-body">
+				<h3>{{selectedseats}} Ticket(s) has been booked </h3>
+				<h4>Date: Today</h4>
+				<h4>Time: 07:00 PM</h4>
+				<h4>Seats: <a class="holder" ng-repeat="bookedseat in bookeditems"><img class="img-thumbnail seat-img" src="img/seats.png" alt="chair-img" /><span class="caption">{{bookedseat}}</span></a></h4>
+
+			<button type="button" class="btn btn-default" ng-click="showConfirmPage(1)">Back to seat selection</button>
+			</div>
+	   </div>
+	</section>
+</div>
+<script src="bower_components/angular/angular.js"></script>
+<script src="js/app.js"></script>
+<script src="js/controller.js"></script> 
+</body>
+</html>
